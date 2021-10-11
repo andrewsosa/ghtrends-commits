@@ -14,13 +14,12 @@ export function getS3Client(): AWS.S3 {
       secretAccessKey: "S3RVER",
       endpoint: new AWS.Endpoint("http://localhost:4569"),
     });
-
-    // Prod client
-    return new AWS.S3({
-      accessKeyId: AWS_S3_ACCESS_KEY_ID,
-      secretAccessKey: AWS_S3_SECRET_ACCESS_KEY,
-    });
   }
+  // Prod client
+  return new AWS.S3({
+    accessKeyId: AWS_S3_ACCESS_KEY_ID,
+    secretAccessKey: AWS_S3_SECRET_ACCESS_KEY,
+  });
 }
 
 export function getLambdaClient(): AWS.Lambda {
