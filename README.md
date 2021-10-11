@@ -17,3 +17,6 @@ MODELS:
 * JOB MODEL: CONTAINS TARGET REPO NAME/BRANCH/URL
 * REPO METADATA: REPO NAME, DATA URL, LAST MODIFIED
 
+TODO:
+- [ ] don't let multiple jobs for same repo run at same time
+- [ ] ???
