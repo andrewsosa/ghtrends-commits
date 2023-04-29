@@ -1,19 +1,21 @@
 import { ManagedUpload } from "aws-sdk/clients/s3";
+import type { Commit } from "../etl/github";
 import { getS3Client } from "../utils/clients";
 
 const { AWS_S3_BUCKET_NAME } = process.env;
 
 export function s3Path(name: string): string {
-  return `${name}.json`;
+  return `github.com/${name}.json`;
 }
 
 export async function uploadJSON(
   repo: string,
-  payload: JSON
+  payload: Array<Commit>,
 ): Promise<ManagedUpload.SendData> {
   const s3 = getS3Client();
 
-  const body: string = JSON.stringify(payload);
+  // per-line JSON records for each commit
+  const body: string = payload.map((el) => JSON.stringify(el)).join("\n");
 
   return new Promise((resolve, reject) => {
     s3.upload(
@@ -24,7 +26,7 @@ export async function uploadJSON(
       },
       (err, data) => {
         err ? reject(err) : resolve(data);
-      }
+      },
     );
   });
 }

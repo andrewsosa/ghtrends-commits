@@ -1,8 +1,6 @@
 import * as Sentry from "@sentry/serverless";
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import "source-map-support/register";
-import { connectDB } from "./db/connect";
-import { updateMetadata } from "./db/metadata";
 import { downloadCommits } from "./etl/github";
 import { uploadJSON } from "./etl/s3";
 import { response } from "./utils/http";
@@ -13,8 +11,10 @@ Sentry.AWSLambda.init({
   tracesSampleRate: 1.0,
 });
 
+type ETLEvent = APIGatewayProxyEvent & { repo: string | undefined };
+
 export async function endpoint(
-  event: APIGatewayProxyEvent
+  event: ETLEvent,
 ): Promise<APIGatewayProxyResult> {
   logger.debug("event", event);
 
@@ -26,9 +26,6 @@ export async function endpoint(
 
   const commits = await downloadCommits(repo);
   const s3Data = await uploadJSON(repo, commits);
-
-  await connectDB();
-  await updateMetadata(repo, s3Data.Key);
 
   return response(200, s3Data);
 }

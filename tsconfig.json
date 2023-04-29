@@ -1,16 +1,16 @@
 {
+  "include": ["api"],
+  "exclude": ["node_modules"],
   "compilerOptions": {
-    "preserveConstEnums": true,
-    "strictNullChecks": true,
-    "sourceMap": true,
-    "allowJs": true,
-    "target": "es5",
     "outDir": ".build",
+    "target": "ES5",
+    // "module": "ES2020",
+    "lib": ["ES2015"],
+    "allowJs": true,
     "moduleResolution": "node",
-    "lib": [
-      "es2015"
-    ],
-    "rootDir": "./",
+    "removeComments": true,
+    "sourceMap": false,
+    "skipLibCheck": true,
     "esModuleInterop": true
   }
 }

@@ -4,11 +4,10 @@ export const logger = createLogger({
   transports: [
     new transports.Console({
       level: "debug",
-      json: false,
       format: format.combine(
-        format.colorize(),
+        // format.colorize(),
         format.splat(),
-        format.simple()
+        format.simple(),
       ),
       silent: false,
     }),

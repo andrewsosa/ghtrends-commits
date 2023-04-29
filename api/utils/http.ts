@@ -2,7 +2,7 @@ import { APIGatewayProxyResult } from "aws-lambda";
 
 export function response(
   statusCode: number,
-  body: JSON
+  body: unknown,
 ): APIGatewayProxyResult {
   return {
     statusCode,

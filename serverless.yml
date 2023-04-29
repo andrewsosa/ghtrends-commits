@@ -2,21 +2,25 @@ org: andrewsosa
 app: ghtrends-commits
 service: ghtrends-commits
 
-frameworkVersion: "2"
-useDotenv: false
+frameworkVersion: "3"
+useDotenv: true
 # variablesResolutionMode: 20210326
 
 plugins:
-  - serverless-dotenv-plugin
   - serverless-plugin-typescript
-  - serverless-s3-local
-  - serverless-offline
+  # - serverless-s3-local
+  # - serverless-offline
 
 provider:
   name: aws
-  runtime: nodejs12.x
-  lambdaHashingVersion: "20201221"
-  iamRoleStatements:
+  runtime: nodejs16.x
+  environment:
+    AWS_S3_ACCESS_KEY_ID: ${env:AWS_S3_ACCESS_KEY_ID}
+    AWS_S3_SECRET_ACCESS_KEY: ${env:AWS_S3_SECRET_ACCESS_KEY}
+    AWS_S3_BUCKET_NAME: ${env:AWS_S3_BUCKET_NAME}
+    SENTRY_DSN: ${env:SENTRY_DSN}
+    ETL_FUNCTION: ${self:service}-${opt:stage, 'dev'}-etl
+  iamRoleStatements: # provider.iam.role.statements
     - Effect: Allow
       Action:
         - lambda:InvokeFunction
@@ -25,12 +29,16 @@ provider:
 functions:
   index:
     handler: api/main.handler
+    layers:
+      - arn:aws:lambda:us-east-1:553035198032:layer:git-lambda2:8
     events:
       - http:
           path: /
           method: get
   etl:
     handler: api/etl.handler
+    layers:
+      - arn:aws:lambda:us-east-1:553035198032:layer:git-lambda2:8
     timeout: 600
     # events:
     #   - http:
