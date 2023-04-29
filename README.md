@@ -1,22 +1,19 @@
-SERVICE GOALS:
+# Github Trends ETL Pipeline
 
-* MAIN ENDPOINT:
-    * VALIDATE INPUT
-    * CHECK EXISTING DATA
-    * JOB DISPATCH
-* WORKER ENDPOINT:
-    * LONG RUNNING
-    * UPLOADS DATA TO S3
-    * NO HTTP, INVOKE ONLY
+### Service Goals:
 
-ENDPOINTS:
-1. /index?name=facebook/react
-2. [NOPE] /download?job=5895ed93-d1f0-45eb-b525-101339fcf158
+* HTTP Handler:
+  - [X] Validate Input
+  - [ ] Check Existing Data
+  - [X] Job Dispatch
+* ETL Worker:
+  - [x] Long Running
+  - [x] Uploads Data To S3
+  - [x] No Http, Invoke Only
 
-MODELS:
-* JOB MODEL: CONTAINS TARGET REPO NAME/BRANCH/URL
-* REPO METADATA: REPO NAME, DATA URL, LAST MODIFIED
+### Endpoints:
+1. `/?repo=facebook/react`
 
-TODO:
-- [ ] don't let multiple jobs for same repo run at same time
+### TODO:
+- [ ] Don't Let Multiple Jobs For Same Repo Run At Same Time
 - [ ] ???
